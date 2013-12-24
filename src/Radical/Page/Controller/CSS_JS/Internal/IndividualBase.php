@@ -1,7 +1,7 @@
 <?php
 namespace Radical\Web\Page\Controller\CSS_JS\Internal;
 
-abstract class IndividualBase extends \Web\Page\Handler\PageBase {
+abstract class IndividualBase extends \Radical\Web\Page\Handler\PageBase {
 	protected $name;
 
 	const MIME_TYPE = 'text/plain';
@@ -15,7 +15,7 @@ abstract class IndividualBase extends \Web\Page\Handler\PageBase {
 			$file = array($file);
 		}
 		
-		$headers = \Web\Page\Handler::current()->headers;
+		$headers = \Radical\Web\Page\Handler::current()->headers;
 		$headers->Add('Content-Type',static::MIME_TYPE);
 		$headers->Add('Cache-Control','public');
 		$headers->setCache(60*60*24);

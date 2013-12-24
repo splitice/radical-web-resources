@@ -1,7 +1,7 @@
 <?php
 namespace Radical\Web\Page\Controller\CSS_JS\Internal;
 use Radical\Web\Page\Controller\CSS_JS\CSS\Individual;
-use Radical\Utility\Cache\PooledCache;
+use Radical\Cache\PooledCache;
 
 abstract class CombineBase extends IndividualBase {
 	protected $version;
@@ -12,7 +12,8 @@ abstract class CombineBase extends IndividualBase {
 	function __construct($data){
 		parent::__construct($data);
 		$n = $data['name'];
-		if($pos = strrpos($n,'.')){
+		$pos = strrpos($n,'.');
+		if($pos){
 			$this->version = ((int)substr($n,$pos+1))^6;
 			$n = substr($n,0,$pos);
 		}
@@ -23,7 +24,7 @@ abstract class CombineBase extends IndividualBase {
 		
 		$version = (int)$cache->Get($name);
 		if(!$version){
-			$path = new \Core\Resource(static::EXTENSION.DS.$name);
+			$path = new \Radical\Core\Resource(static::EXTENSION.DS.$name);
 			foreach($path->getFiles() as $f){
 				$version = max($version,filemtime($f));
 			}
@@ -33,14 +34,14 @@ abstract class CombineBase extends IndividualBase {
 		return '/'.$name.'.'.$version.'.'.static::EXTENSION;
 	}
 	static function exists($name){
-		$path = new \Core\Resource(static::EXTENSION.DS.$name);
+		$path = new \Radical\Core\Resource(static::EXTENSION.DS.$name);
 		return $path->exists();
 	}
 	protected function getPath(){
 		return static::EXTENSION.DS.parent::getPath();
 	}
 	protected function getFiles($expr = '*'){
-		$path = new \Core\Resource($this->getPath());
+		$path = new \Radical\Core\Resource($this->getPath());
 		return $path->getFiles($expr);
 	}
 	protected function sendHeaders(){
@@ -77,13 +78,13 @@ abstract class CombineBase extends IndividualBase {
 			
 			$ret = '';
 			foreach($data as $f=>$d){
-				if(!\Core\Server::isProduction()){
+				if(!\Radical\Core\Server::isProduction()){
 					$ret .= "\r\n/* Including: ".$f." */\r\n";
 				}
 				$ret .= $d;
 			}
 			
-			if(\Core\Server::isProduction()){
+			if(\Radical\Core\Server::isProduction()){
 				$ret = $this->optimize($ret);
 				$cache->set($key, $ret);
 			}
@@ -91,7 +92,7 @@ abstract class CombineBase extends IndividualBase {
 		
 		echo $ret;
 		
-		$headers = \Web\Page\Handler::top()->headers;
+		$headers = \Radical\Web\Page\Handler::top()->headers;
 		$headers->setContentLength(strlen($ret));
 		$headers['Vary'] = 'Accept-Encoding';
 	}

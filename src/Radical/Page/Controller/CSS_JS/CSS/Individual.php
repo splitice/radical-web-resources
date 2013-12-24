@@ -2,7 +2,6 @@
 
 namespace Radical\Web\Page\Controller\CSS_JS\CSS;
 
-use Core\Server;
 use Radical\Web\Page\Controller\CSS_JS\Internal\IndividualBase;
 
 class Individual extends IndividualBase {
@@ -46,7 +45,7 @@ class Individual extends IndividualBase {
 	}
 	static function get_file($file) {
 		$ext = pathinfo ( $file, PATHINFO_EXTENSION );
-		if ($ext == 'scss' || $ext == 'sass') {
+		/*if ($ext == 'scss' || $ext == 'sass') {
 			$bn = basename ( $file );
 			if ($bn {0} == '_')
 				return ''; // Importable packages
@@ -70,7 +69,7 @@ class Individual extends IndividualBase {
 				// Execute the compiler.
 			$parser = new \SassParser ( $options );
 			return $parser->toCss ( $file );
-		}
+		}*/
 		
 		return file_get_contents ( $file );
 	}
