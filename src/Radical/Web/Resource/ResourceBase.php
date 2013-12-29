@@ -8,7 +8,7 @@ abstract class ResourceBase {
 	
 	static function path($name){
 		global $BASEPATH;
-		return $BASEPATH.DIRECTORY_SEPARATOR.'*'.DIRECTORY_SEPARATOR.static::PATH.DIRECTORY_SEPARATOR.$name;
+		return $BASEPATH.DIRECTORY_SEPARATOR.static::PATH.DIRECTORY_SEPARATOR.$name;
 	}
 	static function fileTime($name){
 		$filemtime = 0;
@@ -20,7 +20,7 @@ abstract class ResourceBase {
 		return $filemtime;
 	}
 	static function exists($name){
-		return (count(glob(static::Path($name))) > 0);
+		return file_exists(static::Path($name));
 	}
 	protected static abstract function _HTML($path);
 	static function hTML($name){
