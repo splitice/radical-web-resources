@@ -63,15 +63,13 @@ abstract class CombineBase extends IndividualBase {
 		
 		$ret = $cache->get($key);
 		
-		if(!$ret){
+		if(!$ret || !\Radical\Core\Server::isProduction()){
 			$data = array();
 			$files = $this->getFiles();
 			foreach($files as $f){
 				if(is_file($f)){//Ignore folders
-					//die(var_dump($f));
 					$fn = basename($f);
-					//$url = \Utility\Net\URL::fromRequest('/'.static::EXTENSION.'/'.$this->name.'/'.$f);
-					//$data[$f] = \Web\Page\Handler\SubRequest::fromURL($url)->Execute('GET');
+					
 					$data[$fn] = Individual::get_file($f);
 				}
 			}

@@ -7,6 +7,24 @@ abstract class IndividualBase extends \Radical\Web\Page\Handler\PageBase {
 	const MIME_TYPE = 'text/plain';
 	const EXTENSION = '';
 	
+	//TODO: split css and js
+	private static $ext_handlers = array();
+	
+	protected function get_contents($file){
+		$ext = pathinfo($file, PATHINFO_EXTENSION);
+		$ext = strtolower($ext);
+		if(isset(self::$ext_handlers[$ext])){
+			$c = self::$ext_handlers[$ext];
+			return $c($file);
+		}
+		
+		return file_get_contents($file);
+	}
+	
+	public static function register_handler($ext, $callback){
+		self::$ext_handlers[$ext] = $callback;
+	}
+	
 	function __construct($data){
 		$this->name = $data['name'];
 	}
@@ -31,8 +49,7 @@ abstract class IndividualBase extends \Radical\Web\Page\Handler\PageBase {
 	}
 	private function getFile(){
 		global $BASEPATH;
-		$expr = $BASEPATH.'{system,app}'.DS.$this->getPath();
-		return array_pop(glob($expr,GLOB_BRACE ));
+		return $BASEPATH.$this->getPath();
 	}
 	/**
 	 * Handle GET request
