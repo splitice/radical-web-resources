@@ -11,7 +11,7 @@
 	"type" : "library",
 	"description" : "radical-php",
 	"require" : {
-        "innogames/cssmin" : "dev-master",
+        "natxet/CssMin" : "3.0.2",
         "php" : ">=5.4",
 		"splitice/radical-web" : "dev-master"
 	},

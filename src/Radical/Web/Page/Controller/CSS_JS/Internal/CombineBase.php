@@ -48,7 +48,7 @@ abstract class CombineBase extends IndividualBase {
 		parent::sendHeaders($this->getFiles());
 	}
 	function optimize($code){
-		return $code;
+		return \CssMin::minify($code);
 	}
 	/**
 	 * Handle GET request
