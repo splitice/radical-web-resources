@@ -11,7 +11,8 @@
 	"type" : "library",
 	"description" : "radical-php",
 	"require" : {
-		"php" : ">=5.4",
+        "natxet/CssMin" : "3.0.2",
+        "php" : ">=5.4",
 		"splitice/radical-web" : "dev-master"
 	},
 	"minimum-stability" : "dev"
