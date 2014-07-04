@@ -20,7 +20,7 @@ abstract class CombineBase extends IndividualBase {
 		$this->name = $n;
 	}
 	static function link($name){
-		$cache = PooledCache::Get(get_called_class(), 'Memory');
+        $cache = PooledCache::Get('resource_'.static::EXTENSION, 'Memory');
 		
 		$version = (int)$cache->Get($name);
 		if(!$version){
