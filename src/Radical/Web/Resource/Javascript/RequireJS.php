@@ -4,6 +4,7 @@ namespace Radical\Web\Resource\Javascript;
 use Radical\Web\Resource\Javascript\Libraries\IJavascriptLibrary;
 
 use Radical\Utility\HTML\Tag\Script;
+use Radical\Web\ResourceConfig;
 
 class RequireJS extends Script {
 	protected $modules = array();
@@ -29,6 +30,11 @@ class RequireJS extends Script {
 	}
 	protected function _buildConfigArray(){
 		$config = array('baseUrl'=>'/js/');
+
+
+        if(ResourceConfig::$addCachePrefixJs){
+            $config['baseUrl'] .= ResourceConfig::$addCachePrefixJs.'/';
+        }
 		
 		//If we have defined paths add to config;
 		$path = array();

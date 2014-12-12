@@ -39,8 +39,12 @@ abstract class IndividualBase extends \Radical\Web\Page\Handler\PageBase {
 		$headers->setCache(60*60*24);
 		$headers->Add('Pragma','cache');
 		//$headers['Vary'] = 'Accept-Encoding';
-		
-		$filemtime = max(array_map('filemtime',$file));
+
+        $times = array_map('filemtime',$file);
+        if(!$times){
+            return;
+        }
+		$filemtime = max($times);
 		//die(var_dump($file));
 		$headers->setLastModified($filemtime);
 	}

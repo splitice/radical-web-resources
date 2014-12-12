@@ -2,6 +2,7 @@
 namespace Radical\Web\Resource;
 
 use Radical\Core\Server;
+use Radical\Web\ResourceConfig;
 
 abstract class ResourceBase {
 	const PATH = '|';
@@ -23,7 +24,13 @@ abstract class ResourceBase {
 		return file_exists(static::Path($name));
 	}
 	protected static abstract function _HTML($path);
-	static function hTML($name){
-		return static::_HTML(Server::getSiteRoot().$name.'.'.static::FileTime($name).'.'.static::PATH);
+	static function HTML($name){
+        $path = Server::getSiteRoot();
+        if((ResourceConfig::$addCachePrefixJs && static::PATH == 'js') || (ResourceConfig::$addCachePrefixCss && static::PATH == 'css')){
+            $path .= ResourceConfig::$addCachePrefix.'/';
+        }
+        $path .= $name.'.'.static::FileTime($name).'.'.static::PATH;
+
+		return static::_HTML($path);
 	}
 }
