@@ -53,7 +53,7 @@ abstract class IndividualBase extends \Radical\Web\Page\Handler\PageBase {
 	}
 	private function getFile(){
 		global $BASEPATH;
-		return $BASEPATH.$this->getPath();
+		return rtrim($BASEPATH,"/").'/'.ltrim($this->getPath(),'/');
 	}
 	/**
 	 * Handle GET request
