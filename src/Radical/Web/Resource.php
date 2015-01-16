@@ -92,12 +92,14 @@ class Resource {
 			return $ret;
 		}
 	}
-	static function output($type = 'script'){
+	static function output($type = 'script', $always = true){
 		$r = self::generate($type);
-		
-		if(is_object($r))
-			if(!$r->inner) return;
-		elseif(!$r) return;
+
+		if(!$always) {
+			if (is_object($r))
+				if (!$r->inner) return;
+				elseif (!$r) return;
+		}
 		
 		echo $r;
 	}

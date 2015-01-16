@@ -66,6 +66,5 @@ abstract class IndividualBase extends \Radical\Web\Page\Handler\PageBase {
 		$ret = file_get_contents($file);
 		
 		echo $ret;
-		//return new \Page\Handler\GZIP($ret);
 	}
 }

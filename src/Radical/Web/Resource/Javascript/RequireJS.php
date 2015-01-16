@@ -13,6 +13,7 @@ class RequireJS extends Script {
 	function __construct($modules = null,$paths = array()){
 		$this->paths = $paths;
 		if($modules != null) $this->addModule($modules);
+		else $this->inner = $this->_buildInner();
 	}
 	
 	function addModule($module){		
@@ -58,7 +59,7 @@ class RequireJS extends Script {
 				$config['paths']['jquery'] = $v;//Special jquery stuff
 			}
 		if($config)	
-			return 'requirejs.config('.json_encode($config).');';
+			return 'requirejs.config(requirejs.configuration='.json_encode($config).');';
 	}
 	function findDepth($tree,&$deps,$depth = 1){
 		$updated = false;
