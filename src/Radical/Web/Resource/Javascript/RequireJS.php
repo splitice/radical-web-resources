@@ -1,9 +1,8 @@
 <?php
 namespace Radical\Web\Resource\Javascript;
 
-use Radical\Web\Resource\Javascript\Libraries\IJavascriptLibrary;
-
 use Radical\Utility\HTML\Tag\Script;
+use Radical\Web\Resource\Javascript\Libraries\IJavascriptLibrary;
 use Radical\Web\ResourceConfig;
 
 class RequireJS extends Script {

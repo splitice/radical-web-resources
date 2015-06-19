@@ -1,9 +1,9 @@
 <?php
 namespace Radical\Web;
 
+use Radical\Utility\HTML\Tag\Script;
 use Radical\Web\Resource\Javascript\Libraries\IJavascriptLibrary;
 use Radical\Web\Resource\Javascript\RequireJS;
-use Radical\Utility\HTML\Tag\Script;
 
 class Resource {
 	static $javascript = array();

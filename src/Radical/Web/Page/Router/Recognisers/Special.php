@@ -2,8 +2,8 @@
 namespace Radical\Web\Page\Router\Recognisers;
 
 use Radical\Utility\Net\URL;
-use Radical\Web\Page\Router\IPageRecognise;
 use Radical\Web\Page\Controller;
+use Radical\Web\Page\Router\IPageRecognise;
 use Radical\Web\ResourceConfig;
 
 class Special implements IPageRecognise {

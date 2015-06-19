@@ -1,7 +1,7 @@
 <?php
 namespace Radical\Web\Page\Controller\CSS_JS\Internal;
-use Radical\Web\Page\Controller\CSS_JS\CSS\Individual;
 use Radical\Cache\PooledCache;
+use Radical\Web\Page\Controller\CSS_JS\CSS\Individual;
 
 abstract class CombineBase extends IndividualBase {
 	protected $version;
