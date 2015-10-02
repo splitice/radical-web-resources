@@ -44,9 +44,6 @@ abstract class CombineBase extends IndividualBase {
 		$path = new \Radical\Core\Resource($this->getPath());
 		return $path->getFiles($expr);
 	}
-	protected function sendHeaders(){
-		parent::sendHeaders($this->getFiles());
-	}
 	function optimize($code){
 		return \CssMin::minify($code);
 	}
@@ -57,15 +54,15 @@ abstract class CombineBase extends IndividualBase {
 	 */
 	function GET(){
 		$key = static::EXTENSION.'_'.$this->name.'_'.$this->version;
-		
-		$this->sendHeaders();
+
+		$files = $this->getFiles();
+		$this->sendHeaders($files);
 		$cache = PooledCache::Get(get_called_class(), 'Memory');
 		
 		$ret = $cache->get($key);
 		
 		if(!$ret || !\Radical\Core\Server::isProduction()){
 			$data = array();
-			$files = $this->getFiles();
 			foreach($files as $f){
 				if(is_file($f)){//Ignore folders
 					$fn = basename($f);
