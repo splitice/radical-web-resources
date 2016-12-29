@@ -29,7 +29,7 @@ class RequireJS extends Script {
 		$this->inner = $this->_buildInner();
 	}
 	protected function _buildConfigArray(){
-		$config = array('baseUrl'=>'/js/');
+		$config = array('baseUrl'=>'/js/', 'waitSeconds'=>15);
 
 
         if(ResourceConfig::$addCachePrefixJs){
