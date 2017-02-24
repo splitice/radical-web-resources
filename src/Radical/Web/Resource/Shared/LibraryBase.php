@@ -1,6 +1,6 @@
 <?php
 namespace Radical\Web\Resource\Shared;
-use Radical\Basic\String;
+use Radical\Basic\StringHelper;
 
 abstract class LibraryBase {
 	const URL = '';
@@ -8,7 +8,7 @@ abstract class LibraryBase {
 	public $depends = array();
 	
 	function __construct($version){
-		$this->path = String\Format::sprintfn(static::URL,compact('version'));
+		$this->path = StringHelper\Format::sprintfn(static::URL,compact('version'));
 	}
 	
 	function __toString(){
