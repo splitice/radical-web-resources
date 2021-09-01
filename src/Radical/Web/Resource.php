@@ -8,6 +8,7 @@ use Radical\Web\Resource\Javascript\RequireJS;
 class Resource {
 	static $javascript = array();
 	static $css = array();
+	static $inlines = array();
 	
 	public $name;
 	public $version;
@@ -57,40 +58,54 @@ class Resource {
 		$a = &self::$$type;
 		$a[$name] = self::_create($name,$version,$type);
 	}
+	static function _generate($type){
+	    if($type == "require.js"){
+            $scripts = $paths = array();
+            foreach(self::$javascript as $scriptName=>$script){
+                $scripts[] = $script->name;
+
+                //Is it a CDN hosted library?
+                $extLib = Resource\Javascript\Library::Find($script->name,$script->version);
+                if($extLib instanceof IJavascriptLibrary){
+                    $paths[$script->name] = $extLib;
+                }
+            }
+            return new RequireJS($scripts,$paths);
+        } else if($type == "require.css"){
+            $inner = '';
+            foreach(self::$css as $styleName=>$css){
+                $inner .= $css->getLoadCSS();
+            }
+            $script = new Script();
+            $script->inner = $inner;
+            return $script;
+        }
+    }
 	static function generate($type = 'script'){
+        $ret = '';
 		if($type == 'require.both'){
-			$sC = self::generate('require.css');
-			$sJ = self::generate('require.js');
+			$sC = self::_generate('require.css');
+			$sJ = self::_generate('require.js');
 			$sC->inner .= $sJ->inner;
-			return $sC;
+            $ret = (string)$sC;
 		}elseif($type == 'require.js'){
-			$scripts = $paths = array();
-			foreach(self::$javascript as $scriptName=>$script){
-				$scripts[] = $script->name;
-				
-				//Is it a CDN hosted library?
-				$extLib = Resource\Javascript\Library::Find($script->name,$script->version);
-				if($extLib instanceof IJavascriptLibrary){
-					$paths[$script->name] = $extLib;
-				}
-			}
-			return new RequireJS($scripts,$paths);
+			$rjs = self::_generate($type);
+			$ret = (string)$rjs;
 		}elseif($type == 'require.css'){
-			$inner = '';
-			foreach(self::$css as $styleName=>$css){
-				$inner .= $css->getLoadCSS();
-			}
-			$script = new Script();
-			$script->inner = $inner;
-			return $script;
+            $script = self::_generate($type);
+			$ret = (string)$script;
 		}else{
-			$ret = '';
 			$type = self::_type($type);
 			foreach(self::$type as $v){
 				$ret .= $v;
 			}
-			return $ret;
 		}
+
+        foreach(self::$inlines as $inline){
+            $ret .= '<script type="text/javascript">'.$inline.'</script>';
+        }
+
+		return $ret;
 	}
 	static function output($type = 'script', $always = true){
 		$r = self::generate($type);
